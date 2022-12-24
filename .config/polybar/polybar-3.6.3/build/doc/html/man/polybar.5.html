@@ -1,0 +1,266 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>polybar(5) &#8212; Polybar User Manual 3.6.3 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Packaging Polybar" href="../dev/packaging.html" />
+    <link rel="prev" title="polybar-msg(1)" href="polybar-msg.1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="polybar-5">
+<h1>polybar(5)<a class="headerlink" href="#polybar-5" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>The polybar configuration file defines the behavior and look of polybar. It uses
+a variant of the <a class="reference external" href="https://en.wikipedia.org/wiki/INI_file">INI</a> file format.
+The exact syntax is described below but first a small snippet to get familiar
+with the syntax:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[section_name]</span>
+<span class="c1">; A comment</span>
+<span class="c1"># Another comment</span>
+
+<span class="na">background</span> <span class="o">=</span> <span class="s">#ff992a</span>
+<span class="na">width</span> <span class="o">=</span> <span class="s">90%</span>
+<span class="na">monitor</span> <span class="o">=</span> <span class="s">HDMI-0</span>
+
+<span class="na">screenchange-reload</span> <span class="o">=</span> <span class="s">false</span>
+
+<span class="c1">; Use double quotes if you want to keep the surrounding space.</span>
+<span class="na">text</span> <span class="o">=</span> <span class="s">&quot; Some text &quot;</span>
+</pre></div>
+</div>
+<p>When started <code class="docutils literal notranslate"><span class="pre">polybar</span></code> will search for the config file in one of several
+places in the following order:</p>
+<ul class="simple">
+<li>If the <code class="docutils literal notranslate"><span class="pre">-c</span></code> or <code class="docutils literal notranslate"><span class="pre">--config</span></code> command line argument is specified, it will use
+the path given there.</li>
+<li><code class="docutils literal notranslate"><span class="pre">$XDG_CONFIG_HOME/polybar/config</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">$XDG_CONFIG_HOME/polybar/config.ini</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">$HOME/.config/polybar/config</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">$HOME/.config/polybar/config.ini</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">$XDG_CONFIG_DIRS/polybar/config.ini</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">/etc/xdg/polybar/config.ini</span></code> (only if <code class="docutils literal notranslate"><span class="pre">XDG_CONFIG_DIRS</span></code> is not set)</li>
+<li><code class="docutils literal notranslate"><span class="pre">/etc/polybar/config.ini</span></code></li>
+</ul>
+</div>
+<div class="section" id="syntax">
+<h2>Syntax<a class="headerlink" href="#syntax" title="Permalink to this headline">¶</a></h2>
+<p>The entire config is line-based so everything is constrained to a single line.
+This means there are no multiline values or other multiline constructs (except
+for sections).
+Each line has one of four types:</p>
+<ul class="simple">
+<li>Empty</li>
+<li>Comment</li>
+<li>Section Header</li>
+<li>Key</li>
+</ul>
+<p>Spaces at the beginning and end of each line will be ignored.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In this context &quot;spaces&quot; include the regular space character as well as the
+tab character and any other character for which <em class="manpage">isspace(3)</em> returns
+<code class="docutils literal notranslate"><span class="pre">true</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">\r</span></code>).</p>
+</div>
+<p>Any line that doesn't fit into one of these four types is a syntax error.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>It is recommended that <cite>section header</cite> names and <cite>key</cite> names only use
+alphanumeric characters as well as dashes (<code class="docutils literal notranslate"><span class="pre">-</span></code>), underscores (<code class="docutils literal notranslate"><span class="pre">_</span></code>) and
+forward slashes (<code class="docutils literal notranslate"><span class="pre">/</span></code>).</p>
+<p class="last">In practice all characters are allowed except for spaces and any of these:
+<code class="docutils literal notranslate"><span class="pre">&quot;'=;#[](){}:.$\%</span></code></p>
+</div>
+<div class="section" id="section-headers">
+<h3>Section Headers<a class="headerlink" href="#section-headers" title="Permalink to this headline">¶</a></h3>
+<p>Sections are used to group config options together. For example each module is
+defined in its own section.</p>
+<p>A section is defined by placing the name of the section in square brackets
+(<code class="docutils literal notranslate"><span class="pre">[</span></code> and <code class="docutils literal notranslate"><span class="pre">]</span></code>). For example:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[module/wm]</span>
+</pre></div>
+</div>
+<p>This declares a section with the name <code class="docutils literal notranslate"><span class="pre">module/wm</span></code> and all keys defined after
+this line will belong to that section until a new section is declared.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The first non-empty and non-comment line in the main config file must be a
+section header. It cannot be a key because that key would not belong to any
+section.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The following section names are reserved and cannot be used inside the config:
+<code class="docutils literal notranslate"><span class="pre">self</span></code>, <code class="docutils literal notranslate"><span class="pre">root</span></code>, and <code class="docutils literal notranslate"><span class="pre">BAR</span></code>.</p>
+</div>
+</div>
+<div class="section" id="keys">
+<h3>Keys<a class="headerlink" href="#keys" title="Permalink to this headline">¶</a></h3>
+<p>Keys are defined by assigning a value to a name like this:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">name</span> <span class="o">=</span> <span class="s">value</span>
+</pre></div>
+</div>
+<p>This assigns <code class="docutils literal notranslate"><span class="pre">value</span></code> to the key <code class="docutils literal notranslate"><span class="pre">name</span></code> in whatever section this line is in.
+Key names need to be unique per section.
+If the value is enclosed by double-quotes (<code class="docutils literal notranslate"><span class="pre">&quot;</span></code>), the quotes will be ignored.
+So the following still assigns <code class="docutils literal notranslate"><span class="pre">value</span></code> to <code class="docutils literal notranslate"><span class="pre">name</span></code>:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">name</span> <span class="o">=</span> <span class="s">&quot;value&quot;</span>
+</pre></div>
+</div>
+<p>Spaces around the equal sign are ignored, the following are all equivalent:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">name</span><span class="o">=</span><span class="s">value</span>
+<span class="na">name</span> <span class="o">=</span> <span class="s">value</span>
+<span class="na">name</span> <span class="o">=</span>      <span class="s">value</span>
+</pre></div>
+</div>
+<p>Because spaces at the beginning and end of the line are also ignored, if you
+want your value to begin and/or end with a space, the value needs to be enclosed
+in double-quotes:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">name</span> <span class="o">=</span> <span class="s">&quot; value &quot;</span>
+</pre></div>
+</div>
+<p>Here the value of the <code class="docutils literal notranslate"><span class="pre">name</span></code> key has a leading and trailing whitespace.</p>
+<p>To treat characters with special meaning as literal characters, you need to
+prepend them with the backslash (<code class="docutils literal notranslate"><span class="pre">\</span></code>) escape character:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">name</span> <span class="o">=</span> <span class="s">&quot;value\\value\\value&quot;</span>
+</pre></div>
+</div>
+<p>Value of this key <code class="docutils literal notranslate"><span class="pre">name</span></code> results in <code class="docutils literal notranslate"><span class="pre">value\value\value</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The only character with a special meaning right now is the backslash character
+(<code class="docutils literal notranslate"><span class="pre">\</span></code>), which serves as the escape character.
+More will be added in the future.</p>
+</div>
+</div>
+<div class="section" id="empty-lines-comments">
+<h3>Empty Lines &amp; Comments<a class="headerlink" href="#empty-lines-comments" title="Permalink to this headline">¶</a></h3>
+<p>Empty lines and comment lines are ignored when reading the config file, they do
+not affect polybar's behavior. Comment lines start with either the <code class="docutils literal notranslate"><span class="pre">;</span></code> or the
+<code class="docutils literal notranslate"><span class="pre">#</span></code> character.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Inline comments are not supported. For example the following line does not end
+with a comment, the value of <code class="docutils literal notranslate"><span class="pre">name</span></code> is actually set to <code class="docutils literal notranslate"><span class="pre">value</span> <span class="pre">;</span> <span class="pre">comment</span></code>:</p>
+<div class="last highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">name</span> <span class="o">=</span> <span class="s">value ; comment</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="authors">
+<h2>AUTHORS<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h2>
+<div class="line-block">
+<div class="line">Polybar was created by Michael Carlberg and is currently maintained by Patrick Ziegler.</div>
+<div class="line">Contributors can be listed on GitHub.</div>
+</div>
+</div>
+<div class="section" id="see-also">
+<h2>SEE ALSO<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="polybar.1.html"><span class="doc">polybar(1)</span></a>,
+<a class="reference internal" href="polybar-msg.1.html"><span class="doc">polybar-msg(1)</span></a></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Polybar User Manual</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Content:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user/actions.html">Actions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user/ipc.html">Inter-process-messaging</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Manual Pages:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="polybar.1.html">polybar(1)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polybar-msg.1.html">polybar-msg(1)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">polybar(5)</a></li>
+</ul>
+<p class="caption"><span class="caption-text">For Contributors:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/packaging.html">Packaging Polybar</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/release-workflow.html">Release Workflow</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="polybar-msg.1.html" title="previous chapter">polybar-msg(1)</a></li>
+      <li>Next: <a href="../dev/packaging.html" title="next chapter">Packaging Polybar</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016-2022, Michael Carlberg & contributors.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/man/polybar.5.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

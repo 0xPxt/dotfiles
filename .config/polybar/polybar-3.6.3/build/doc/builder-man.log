@@ -1,0 +1,10 @@
+Running Sphinx v1.8.5
+loading pickled environment... done
+building [mo]: targets for 0 po files that are out of date
+building [man]: all manpages
+updating environment: 0 added, 0 changed, 0 removed
+looking for now-outdated files... none found
+writing... polybar.1 { } polybar-msg.1 { } polybar.5 { } 
+build succeeded.
+
+The manual pages are in man.

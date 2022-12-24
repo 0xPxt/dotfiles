@@ -1,0 +1,9 @@
+# Hashes of file build rules.
+e3e1814527c2beefd9bead8d8fcb7d3e CMakeFiles/uninstall
+be681b91ae95d80546317aed405cbc96 doc/CMakeFiles/doc
+1cb88d39d49e5d6b0191dce8bda2d610 doc/CMakeFiles/doc_html
+5ee525b3011fa9439c4ad68fd1989a20 doc/CMakeFiles/doc_man
+b44ae944745ceadf461d3fa37fa48c5f lib/xpp/generated-sources/include/xpp/proto/composite.hpp
+180480e8f2d9309e024a7cee80eeacb4 lib/xpp/generated-sources/include/xpp/proto/randr.hpp
+b628a41999b03e3e4cfd3598ab2b191e lib/xpp/generated-sources/include/xpp/proto/x.hpp
+2608c98db24821ecc10a10559900c9cc lib/xpp/generated-sources/include/xpp/proto/xkb.hpp
