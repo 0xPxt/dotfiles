@@ -1,0 +1,11 @@
+/build
+/tags
+/compile_commands.json
+*.bak
+*.pyc
+*.swp
+*.tmp
+.tags
+*.user
+
+polybar-*.tar

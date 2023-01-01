@@ -117,11 +117,11 @@ bindsym $mod+a focus parent
 # We use variables to avoid repeating the names in mul tiple places  .
 set $ws1 ""
 set $ws2 ""
-set $ws3 "阮"
+set $ws3 ""
 set $ws4 "ﭮ"
 set $ws5 ""
-set $ws6 ""
-set $ws7 "7"
+set $ws6 ""
+set $ws7 ""
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
@@ -131,6 +131,7 @@ exec gnome-terminal
 exec firefox
 exec spotify
 exec discord
+exec notion-snap
 
 #assign tools to ws
 assign [class="Gnome-terminal"] $ws1
@@ -184,8 +185,10 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow width 10 px or 10 ppt
+        bindsym h resize shrink width 10 px or 10 ppt
+        bindsym j resize grow height 10 px or 10 ppt
+        bindsym k resize shrink height 10 px or 10 ppt
+        bindsym l resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
