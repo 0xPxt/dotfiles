@@ -207,21 +207,21 @@ client.unfocused        $inactive-bg-color      $inactive-bg-color      $inactiv
 client.focused_inactive $inactive-bg-color      $inactive-bg-color      $inactive-text-color    $inactive-bg-color
 client.urgent           $urgent-bg-color        $urgent-bg-color        $text-color             $urgent-bg-color
 
-# currently using polybar
+# currently using polybar (i3bar enabled temporarily for debugging)
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-# bar {
-#         status_command i3status
-#         height 30
-#         colors {
-#                 background $inactive-bg-color
-#                 separator $text-color
-#                 #                  border                 background             text
-#                 focused_workspace  $border-color          $bar-bg-color          $bar-icon-color
-#                 inactive_workspace $inactive-bg-color     $inactive-bg-color     $inactive-text-color
-#                 urgent_workspace   $urgent-bg-color       $urgent-bg-color       $text-color
-#         }
-# }
+bar {
+        status_command i3status
+        height 30
+        colors {
+                background $inactive-bg-color
+                separator $text-color
+                #                  border                 background             text
+                focused_workspace  $border-color          $bar-bg-color          $bar-icon-color
+                inactive_workspace $inactive-bg-color     $inactive-bg-color     $inactive-text-color
+                urgent_workspace   $urgent-bg-color       $urgent-bg-color       $text-color
+        }
+}
 
 # Touchpad controls
 bindsym XF86TouchpadToggle exec /home/aleix/scripts/toggletouchpad.sh #toggle touchpad
@@ -251,8 +251,8 @@ exec --no-startup-id pactl set-card-profile bluez_card.80_C3_BA_4A_45_C7 a2dp_si
 
 exec --no-startup-id ~/.config/i3/monitor_scan.sh
 
-# Start picom compositor for transparency
-exec --no-startup-id picom -b --config ~/.config/picom/picom.conf
+# Start picom compositor for transparency (DISABLED FOR TESTING)
+#exec --no-startup-id picom -b --config ~/.config/picom/picom.conf
 
 #wallpaper (handled by monitor_scan.sh)
 
@@ -261,4 +261,7 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # Keyboard rates
 exec --no-startup-id xset r rate 200 40
+
+# DEBUG: Auto-start terminal to verify i3 is working
+exec --no-startup-id alacritty
 

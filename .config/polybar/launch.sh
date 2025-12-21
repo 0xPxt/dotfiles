@@ -1,13 +1,12 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Terminate already running bar instances
-# If all your bars have ipc enabled, you can use 
-polybar-msg cmd quit
-# Otherwise you can use the nuclear option:
-# killall -q polybar
+killall -q polybar
+# If all your bars have ipc enabled, you can also use 
+# polybar-msg cmd quit
 
-# Launch polybar
-# polybar is the name given to the bar in config.ini
-for m in $(polybar --list-monitors | cut -d":" -f1); do
-    MONITOR=$m polybar --reload polybar &
-done
+# Launch bar1 and bar2
+echo "---" | tee -a /tmp/polybar1.log
+polybar --config=~/.config/polybar/config.ini example 2>&1 | tee -a /tmp/polybar1.log & disown
+
+echo "Bars launched..."

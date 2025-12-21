@@ -1,11 +1,152 @@
 configuration {
-	modi: "window,run,drun";
-	font: "Ubuntu Mono Nerd Font Medium 10";
-	show-icons: true;
-	drun-display-format: "{icon} {name}";
-	theme: "/home/aleix/Desktop/git/rofi-collection/gruvbox/gruvbox.rasi";
-	display-window: "";
-	display-run: "";
-	display-drun: "";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+    display-drun: "Applications";
+    display-run: "Run";
+    display-window: "Windows";
+    drun-display-format: "{name}";
 }
-@import "/usr/share/rofi/themes/dracula.rasi"
+
+* {
+    bg-main: #282828ee;
+    bg-alt: #3c3836;
+    bg-selected: #458588;
+    fg: #ebdbb2;
+    fg-alt: #928374;
+    accent: #d79921;
+    border-col: #d5c4a1;
+
+    background-color: transparent;
+    text-color: @fg;
+    font: "Ubuntu Mono Nerd Font Complete 15";
+}
+
+window {
+    transparency: "real";
+    background-color: @bg-main;
+    border: 3px;
+    border-color: @border-col;
+    border-radius: 16px;
+    width: 900px;
+    height: 400px;
+    location: center;
+}
+
+mainbox {
+    enabled: true;
+    spacing: 0px;
+    background-color: transparent;
+    orientation: horizontal;
+    children: [ "imagebox", "listbox" ];
+}
+
+imagebox {
+    enabled: true;
+    padding: 0px;
+    background-color: transparent;
+    background-image: url("~/Pictures/Wallpapers/Linux_gruvbox.png", both);
+    children: [ "dummy" ];
+    expand: false;
+    width: 300px;
+}
+
+dummy {
+    background-color: transparent;
+}
+
+listbox {
+    enabled: true;
+    spacing: 20px;
+    padding: 30px;
+    background-color: @bg-main;
+    children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+    enabled: true;
+    spacing: 10px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: @bg-alt;
+    text-color: @fg;
+    children: [ "prompt", "entry" ];
+}
+
+prompt {
+    enabled: true;
+    background-color: transparent;
+    text-color: @accent;
+}
+
+entry {
+    enabled: true;
+    background-color: transparent;
+    text-color: @fg;
+    cursor: text;
+    placeholder: "Search...";
+    placeholder-color: @fg-alt;
+}
+
+listview {
+    enabled: true;
+    columns: 1;
+    lines: 10;
+    cycle: true;
+    dynamic: true;
+    scrollbar: true;
+    layout: vertical;
+    reverse: false;
+    fixed-height: true;
+    fixed-columns: true;
+    spacing: 5px;
+    background-color: transparent;
+    text-color: @fg;
+    cursor: "default";
+}
+
+scrollbar {
+    handle-width: 8px;
+    handle-color: @border-col;
+    border-radius: 10px;
+    background-color: @bg-alt;
+}
+
+element {
+    enabled: true;
+    spacing: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: transparent;
+    text-color: @fg;
+    cursor: pointer;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element selected.normal {
+    background-color: @bg-selected;
+    text-color: #fbf1c7;
+}
+
+element alternate.normal {
+    background-color: transparent;
+    text-color: @fg;
+}
+
+element-icon {
+    background-color: transparent;
+    text-color: inherit;
+    size: 32px;
+    cursor: inherit;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    cursor: inherit;
+    vertical-align: 0.5;
+    horizontal-align: 0.0;
+}
