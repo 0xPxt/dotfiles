@@ -246,8 +246,6 @@ exec_always --no-startup-id gsettings set org.gnome.desktop.interface text-scali
 # Set environment variables for applications launched from i3
 exec_always --no-startup-id "xrdb -merge <<< 'Xft.dpi: 132'"
 
-exec --no-startup-id ~/.config/i3/bt_momentum4.sh
-exec --no-startup-id pactl set-card-profile bluez_card.80_C3_BA_4A_45_C7 a2dp_sink
 
 exec --no-startup-id ~/.config/i3/monitor_scan.sh
 
