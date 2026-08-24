@@ -44,3 +44,4 @@
 
 background-opacity = 0.85
 window-decoration = none
+theme = GruvboxDark
