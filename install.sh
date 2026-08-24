@@ -25,7 +25,6 @@ DIRS=(
   picom
   polybar
   rofi
-  zathura
   zellij
 )
 
