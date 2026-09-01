@@ -19,7 +19,6 @@ DIRS=(
   alacritty
   ghostty
   i3
-  i3blocks
   lvim
   nvim
   picom
